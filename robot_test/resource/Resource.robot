@@ -4,13 +4,15 @@ Library                                 SeleniumLibrary
 
 *** Variables ***
 ${URL}                                  https://developer.clashroyale.com/
-${BROWSER}                              gc
+${BROWSER}                              firefox
 
-${BTN_LOGIN_HOME}                       css=#content > div > div.drawer-main-container > div > header > div > div > div:nth-child(3) > div > a:nth-child(3)
+${ELEMENT}
 
-# ${BTN_LOGIN}                            css=#content > div > div.drawer-main-container > div > div > div > div > div > div > form > div.form-group.text-right > button
+${BTN_LOGIN}                            xpath=/html/body/div[2]/div/div[2]/div/div/div/div/div/div/form/div[4]/button/span[1]
 
-# ${SPAN_ACESS}                           css=#content > div > div.drawer-main-container > div > div > div > div > div > h2 > span:nth-child(1)
+${SPAN_ACESS}                           xpath=/html/body/div[2]/div/div[2]/div/div/div/div/div/h2/span[1]
+
+${BTN_CREATE_KEY}                       xpath=html.sccc-lang-en.sccc-dir-ltr body div#content div.drawer-container div.drawer-main-container div.drawer-main div.new-api-key-page.page.theme--bicolor section div.container div.row div.col-xs-light.col-xs-12.col-sm-6.col-md-5.col-md-offset-2 form div.form-group.text-right button.ladda-button.btn.btn-primary.btn-lg.btn-block span.ladda-label
 
 *** Keywords ***
 Abrir navegador
@@ -20,33 +22,53 @@ Fechar navegador
     Close Browser
 
 Verificar se esta na pagina home do site
-    Title Should Be                     Clash Royale API
+    Wait Until Element Is Visible       css=.footer__brand > a:nth-child(1) > img
+    # Title Should Be                     Clash Royale API
 
+    # Sleep                               1
 
 Clicar no botao login da pagina home 
-    Click Element                       xpath=//*[@id="content"]/div/div[2]/div/header/div/div/div[3]/div/a[2]
+    Click Link                          css=.login-menu > a:nth-child(3)
 
 
-#    Click Element                       ${BTN_LOGIN_HOME}
-# Inserir "${EMAIL}" no campo Email
+Inserir "${EMAIL}" no campo Email
+    Input Text                          id=email            ${EMAIL}
 
-#     Input Text                          id=email
+Inserir "${PASSWORD}" no campo Password
+    Input Text                          id=password         ${PASSWORD}
 
-# Inserir "${PASSWORD}" no campo Password
-#     Input Text                          id=password
+Clicar no botao de Login 
+    Click Element                       ${BTN_LOGIN}
 
-# Clicar no botao de Login 
-#     Click Element                       ${BTN_LOGIN}
+Verificar se o acesso deu certo, aparecendo a frase "${ENTER_THE_ARENA}"
+    Wait Until Element Is Visible       ${SPAN_ACESS}
 
-# Verificar se o acesso deu certo, aparecendo a frase "${ENTER_THE_ARENA}"
-#     Wait Until Element Is Visible       ${SPAN_ACESS}
+Ir ate My Account dentro do menu bar 
+    Click Element                       css=.dropdown-toggle__text
+
+    Click Element                       css=.dropdown-menu > li:nth-child(1) > a:nth-child(1)
+
+Clicar em Create New Key para abrir o formulario
+    Click Element                       css=.create-key-btn > span:nth-child(2)
 
 
+# Abrir um novo navegador para descobrir qual e o IP, Capturar e Fechar a Pagina
+#     Open Browser                        https://www.expressvpn.com/pt/what-is-my-ip   ${BROWSER}
 
-#1.Acessar o website https://developer.clashroyale.com/
-# 2.Clicar no botão login 
-# 3.Inserir usuário e senha (O cadastro não precisa ser feito pela automação, pode realizá-lo manualmente) 
-# 4.Clicar em login 
+#     Wait Until Element Is Visible       css=.col-left > div:nth-child(1) > h6
 
-# 5 -Ir até o menu minha conta 
-# 6.Criar uma nova chave
+#     Get Text                            css=.col-left > div:nth-child(1) > h4
+
+#     Close Browser
+
+Dentro do formulario: Create a Key adicionar "${KEY_NAME}" em Key Name; Em Description "${DESCRIPTION}"; E em IP "${IP}"
+    Input Text                          id=name           ${KEY_NAME}
+    Input Text                          id=description    ${DESCRIPTION}
+    Input Text                          id=range-0        ${IP}
+
+    Double Click Element                css=.ladda-button
+
+
+Verificar se a Key foi criada com sucesso
+    Wait Until Element Is Visible       css=.col-xs-dark > h2
+
