@@ -7,7 +7,7 @@ import urllib.parse
 
 header = {
     'Accept': 'application/json',
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImYxNDM1NWRjLWRlNjUtNDFhOC05NTI5LTYxNDU4OTgyMjgwMSIsImlhdCI6MTYxMTU4MjIwOSwic3ViIjoiZGV2ZWxvcGVyLzYzZDczNWI3LWI5ZWYtMTliNC1hNTcyLWIzYTUwOGM2YzVjMCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxNzcuOTYuMTUuMTAzIl0sInR5cGUiOiJjbGllbnQifV19.yB8KKtWhZ4vqJkSF2giQidOArHRcgOC56vLbQTw3p-dfYV9YqFg9YA3tw_CQaxDb6LviUoqw-AsTQU0lIQN9LQ'
+    'Authorization': 'Bearer ...'
 }
 
 response = requests.get('https://api.clashroyale.com/v1/locations/57000038/rankings/clans', headers=header)
@@ -19,23 +19,27 @@ else:
 
 
 def search_clan():
+    """Faz a busca em uma lista de clan retornando somente o clan requerido: The resistance """
     json = response.json()
     list_all_clans = json["items"]
 
     return [clan for clan in list_all_clans 
             if "The resistance" == clan['name']]
 
-print(search_clan())
-
 
 
 id_clan_encoding = urllib.parse.quote(search_clan()[0]['tag'])
-print(id_clan_encoding)
+"""Faz o tratamento da URL para URL-encoded"""
+
 
 response_clan = requests.get(f'https://api.clashroyale.com/v1/clans/{id_clan_encoding}', headers=header)
-
+""" Faz a requisicao para encontrar o clan"""
 
 def get_member_clan():
+    """ 
+    Transforma a requisicao em um json/dict, listando todos os membros do clan,
+    e enfim criando um csv: data/members_clan 
+    """
     json = response_clan.json()
     list_all_members = json["memberList"]
 
@@ -58,5 +62,5 @@ def get_member_clan():
 
 
 if __name__ == "__main__":
+    print(search_clan())
     get_member_clan()
-        

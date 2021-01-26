@@ -12,7 +12,6 @@ ${BTN_LOGIN}                            xpath=/html/body/div[2]/div/div[2]/div/d
 
 ${SPAN_ACESS}                           xpath=/html/body/div[2]/div/div[2]/div/div/div/div/div/h2/span[1]
 
-${BTN_CREATE_KEY}                       xpath=html.sccc-lang-en.sccc-dir-ltr body div#content div.drawer-container div.drawer-main-container div.drawer-main div.new-api-key-page.page.theme--bicolor section div.container div.row div.col-xs-light.col-xs-12.col-sm-6.col-md-5.col-md-offset-2 form div.form-group.text-right button.ladda-button.btn.btn-primary.btn-lg.btn-block span.ladda-label
 
 *** Keywords ***
 Abrir navegador
@@ -23,9 +22,7 @@ Fechar navegador
 
 Verificar se esta na pagina home do site
     Wait Until Element Is Visible       css=.footer__brand > a:nth-child(1) > img
-    # Title Should Be                     Clash Royale API
 
-    # Sleep                               1
 
 Clicar no botao login da pagina home 
     Click Link                          css=.login-menu > a:nth-child(3)
@@ -71,4 +68,3 @@ Dentro do formulario: Create a Key adicionar "${KEY_NAME}" em Key Name; Em Descr
 
 Verificar se a Key foi criada com sucesso
     Wait Until Element Is Visible       css=.col-xs-dark > h2
-
